@@ -20,7 +20,7 @@ const Navbar = () => {
           to="/"
           className={({ isActive }) =>
             isActive
-              ? "bg-blue-500 text-white rounded-lg p-2 text-center m-auto"
+              ? "bg-blue-400 text-white rounded-lg p-2 text-center m-auto"
               : "bg-blue-100 text-gray-700 rounded-lg p-2 text-center hover:bg-blue-200 m-auto"
           }
         >
@@ -30,7 +30,7 @@ const Navbar = () => {
           to="/doctors"
           className={({ isActive }) =>
             isActive
-              ? "bg-blue-700 text-white rounded-lg p-2 text-center m-auto"
+              ? "bg-blue-400 text-white rounded-lg p-2 text-center m-auto"
               : "bg-blue-100 text-gray-700 rounded-lg p-2 text-center hover:bg-blue-200 m-auto"
           }
         >
@@ -40,7 +40,7 @@ const Navbar = () => {
           to="/about"
           className={({ isActive }) =>
             isActive
-              ? "bg-blue-700 text-white rounded-lg p-2 text-center m-auto"
+              ? "bg-blue-400 text-white rounded-lg p-2 text-center m-auto"
               : "bg-blue-100 text-gray-700 rounded-lg p-2 text-center hover:bg-blue-200 m-auto"
           }
         >
@@ -50,7 +50,7 @@ const Navbar = () => {
           to="/contact"
           className={({ isActive }) =>
             isActive
-              ? "bg-blue-700 text-white rounded-lg p-2 text-center m-auto"
+              ? "bg-blue-400 text-white rounded-lg p-2 text-center m-auto"
               : "bg-blue-100 text-gray-700 rounded-lg p-2 text-center hover:bg-blue-200 m-auto"
           }
         >
