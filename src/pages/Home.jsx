@@ -1,5 +1,6 @@
 import Header from "@/CustomComponents/Header";
 import SpecialistMenu from "@/CustomComponents/SpecialistMenu";
+import TopDoctors from "@/CustomComponents/TopDoctors";
 
 const Home = () => {
   return (
@@ -7,6 +8,7 @@ const Home = () => {
       {/* Child Components */}
       <Header />
       <SpecialistMenu />
+      <TopDoctors />
     </div>
   );
 };
