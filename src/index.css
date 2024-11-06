@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.active hr {
-  @apply block;
+::-webkit-scrollbar {
+  @apply hidden;
 }
 
 @layer base {
