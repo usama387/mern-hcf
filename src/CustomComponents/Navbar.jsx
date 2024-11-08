@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center text-base justify-between py-4 mb-5 border-b">
-      <p className="font-bold text-2xl text-blue-500 cursor-pointer">Pulseo</p>
+      <p className="font-bold text-2xl text-blue-500 cursor-pointer" onClick={()=>navigate("/")}>Pulseo</p>
       <ul className="hidden md:flex items-start gap-5 font-medium">
         <NavLink
           to="/"
