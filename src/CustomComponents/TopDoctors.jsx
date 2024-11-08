@@ -1,12 +1,15 @@
-import { doctors } from "@/assets/assets";
 import { Button } from "@/components/ui/button";
+import { AppContext } from "@/context/AppContext";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 // child of HomePage
 const TopDoctors = () => {
-
   // for navigation
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  // accessing doctors from the AppContext by passing it in useContext hook
+  const { doctors } = useContext(AppContext);
 
   return (
     <div className="flex flex-col items-center gap-4 my-16 md:mx-10">
@@ -21,7 +24,7 @@ const TopDoctors = () => {
           <div
             key={index}
             className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
-            onClick={()=>navigate(`/appointment/${item._id}`)}
+            onClick={() => navigate(`/appointment/${item._id}`)}
           >
             <img src={item.image} alt="" className="bg-blue-50" />
             <div className="p-4">
@@ -42,7 +45,13 @@ const TopDoctors = () => {
           </div>
         ))}
       </div>
-      <Button className="bg-blue-100 text-gray-600 hover:bg-blue-300 px-6">
+      <Button
+        className="bg-blue-100 text-gray-600 hover:bg-blue-300 px-6"
+        onClick={() => {
+          navigate("/doctors");
+          scrollTo(0, 0);
+        }}
+      >
         More
       </Button>
     </div>
