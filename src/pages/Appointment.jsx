@@ -1,5 +1,6 @@
 import { assets } from "@/assets/assets";
 import { AppContext } from "@/context/AppContext";
+import RelatedDoctors from "@/CustomComponents/RelatedDoctors";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -123,7 +124,9 @@ const Appointment = () => {
 
       {/* BOOKING SLOTS */}
       <div className="sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700">
-        <p className="bg-green-200 text-gray-700 px-8 py-3 w-max rounded-md">Available Slots To Book</p>
+        <p className="bg-green-200 text-gray-700 px-8 py-3 w-max rounded-md">
+          Available Slots To Book
+        </p>
 
         {/* Date and Day select logic */}
         <div className="flex gap-3 items-center w-full overflow-x-scroll mt-4">
@@ -161,8 +164,13 @@ const Appointment = () => {
               </p>
             ))}
         </div>
-        <button className="bg-blue-200 text-gray-500 text-base px-14 py-3 rounded-full my-6">Schedule Now</button>
+        <button className="bg-blue-200 text-gray-500 text-base px-14 py-3 rounded-full my-6">
+          Schedule Now
+        </button>
       </div>
+
+      {/* RELATED DOCTORS LIST */}
+      <RelatedDoctors docId={docId} speciality={doctorInfo?.speciality} />
     </div>
   );
 };
