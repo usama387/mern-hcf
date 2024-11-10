@@ -12,6 +12,9 @@ const Doctors = () => {
   // filter state updated when applyFilter is triggered
   const [filterDoc, setFilterDoc] = useState([]);
 
+  // managing filter state
+  const [showFilter, setShowFilter] = useState(false);
+
   // it filters when specialty is passed from home page and checks if it matches with doctor.specialty otherwise return all doctors
   const applyFilter = () => {
     if (specialty) {
@@ -33,10 +36,20 @@ const Doctors = () => {
         Available Specialists
       </p>
       <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
-        <div className="flex flex-col gap-4 text-sm text-gray-600">
+        <button
+          className={`py-1 px-3 border rounded text-sm transition-all sm:hidden ${
+            showFilter ? "bg-blue-100 text-gray-500" : ""
+          }`}
+          onClick={() => setShowFilter(!showFilter)}
+        >
+          Filters
+        </button>
+        <div className={`flex-col gap-4 text-sm text-gray-600 ${showFilter ? "flex": "hidden sm:flex"}`}>
           <p
             className={`w-[94vw] sm:w-auto pl-3 py-1.5 border border-gray-300 rounded transition-all cursor-pointer ${
-              specialty === " General physician" ? "bg-indigo-100 text-black" : ""
+              specialty === " General physician"
+                ? "bg-indigo-100 text-black"
+                : ""
             }`}
             onClick={() =>
               specialty === "General physician"
@@ -96,7 +109,9 @@ const Doctors = () => {
           </p>
           <p
             className={`w-[94vw] sm:w-auto pl-3 py-1.5 border border-gray-300 rounded transition-all cursor-pointer ${
-              specialty === " Gastroenterologist" ? "bg-indigo-100 text-black" : ""
+              specialty === " Gastroenterologist"
+                ? "bg-indigo-100 text-black"
+                : ""
             }`}
             onClick={() =>
               specialty === "Gastroenterologist"
