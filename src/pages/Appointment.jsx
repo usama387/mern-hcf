@@ -4,8 +4,9 @@ import RelatedDoctors from "@/CustomComponents/RelatedDoctors";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+// single appointment page
 const Appointment = () => {
-  // Get URL parameters when a doctor is clicked on home
+  // Get URL parameters when a doctor is clicked on home or doctors page
   const { docId } = useParams();
 
   // Access the AppContext, which contains the doctors object
@@ -29,7 +30,7 @@ const Appointment = () => {
   // fetches doctor from doctors using id from params
   useEffect(() => {
     if (doctors && docId) {
-      const docInfo = doctors.find((doc) => doc._id === docId);
+      const docInfo = doctors.find((doc) => doc.id === docId);
       setDoctorInfo(docInfo);
     }
   }, [docId, doctors]); // Only run when `docId` or `doctors` change.
