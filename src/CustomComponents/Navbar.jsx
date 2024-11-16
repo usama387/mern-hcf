@@ -1,6 +1,7 @@
 import { assets } from "@/assets/assets";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import { AppContext } from "@/context/AppContext";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -9,8 +10,12 @@ const Navbar = () => {
 
   const [showMenu, setShowMenu] = useState(false);
 
-  // token true means the user is logged in
-  const [token, setToken] = useState(true);
+  const { token, setToken } = useContext(AppContext);
+
+  const handleLogout = () => {
+    setToken(false);
+    localStorage.removeItem("token");
+  };
 
   return (
     <div className="flex items-center text-base justify-between py-4 mb-5 border-b">
@@ -88,7 +93,7 @@ const Navbar = () => {
                   My Appointments
                 </p>
                 <p
-                  onClick={() => setToken(false)}
+                  onClick={handleLogout}
                   className="hover:text-red-600 cursor-pointer"
                 >
                   Logout
