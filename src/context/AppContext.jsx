@@ -10,6 +10,9 @@ const AppContextProvider = (props) => {
   // state to hold doctors data
   const [doctors, setDoctors] = useState([]);
 
+  // state to hold user data
+  const [userData, setUserData] = useState(false);
+
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // state to hold user token for authentication and it prevents logout on page refresh
@@ -23,7 +26,6 @@ const AppContextProvider = (props) => {
       const { data } = await axios.get(backendUrl + "/api/doctor/list");
 
       if (data.success) {
-        console.log(data);
         setDoctors(data.doctors);
       } else {
         toast.error(data.message);
@@ -34,9 +36,36 @@ const AppContextProvider = (props) => {
     }
   };
 
+  // for doctors data
   useEffect(() => {
     getDoctorsData();
   }, []);
+
+  const userProfileData = async () => {
+    try {
+      const { data } = await axios.get(backendUrl + "/api/user/get-profile", {
+        headers: { token },
+      });
+
+      if (data.success) {
+        setUserData(data.userData);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  // for user data
+  useEffect(() => {
+    if (token) {
+      userProfileData();
+    } else {
+      setUserData(false);
+    }
+  }, [token]);
 
   const value = {
     doctors,
@@ -44,6 +73,9 @@ const AppContextProvider = (props) => {
     token,
     setToken,
     backendUrl,
+    userData,
+    setUserData,
+    userProfileData,
   };
 
   return (
