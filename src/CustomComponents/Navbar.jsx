@@ -8,9 +8,11 @@ const Navbar = () => {
   // for navigation
   const navigate = useNavigate();
 
+  // for responsive navbar
   const [showMenu, setShowMenu] = useState(false);
 
-  const { token, setToken } = useContext(AppContext);
+  // for authentication operations
+  const { token, setToken, userData } = useContext(AppContext);
 
   const handleLogout = () => {
     setToken(false);
@@ -68,13 +70,9 @@ const Navbar = () => {
         </NavLink>
       </ul>
       <div className="flex items-center gap-4">
-        {token ? (
+        {token && userData ? (
           <div className="flex items-center gap-2 cursor-pointer group relative">
-            <img
-              className="w-8 rounded-full"
-              src={assets.profile_pic}
-              alt="user"
-            />
+            <img className="w-8 rounded-full" src={userData.image} alt="user" />
             <img className="w-2.5" src={assets.dropdown_icon} alt="icon" />
 
             {/* Dropdown content */}
