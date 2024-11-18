@@ -1,16 +1,19 @@
 import { assets } from "@/assets/assets";
 import { AppContext } from "@/context/AppContext";
 import RelatedDoctors from "@/CustomComponents/RelatedDoctors";
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // single appointment page
 const Appointment = () => {
   // Get URL parameters when a doctor is clicked on home or doctors page
   const { docId } = useParams();
 
-  // Access the AppContext, which contains the doctors object
-  const { doctors, currencySymbol } = useContext(AppContext);
+  // Access the AppContext, which contains destructured items logic
+  const { doctors, currencySymbol, backendUrl, getDoctorsData, token } =
+    useContext(AppContext);
 
   // State to hold doctor information
   const [doctorInfo, setDoctorInfo] = useState(null);
@@ -35,7 +38,7 @@ const Appointment = () => {
     }
   }, [docId, doctors]); // Only run when `docId` or `doctors` change.
 
-  // to get available slots
+  //function that renders available slots for each doctor
   const getAvailableSlots = async () => {
     setDocSlots([]);
     const today = new Date();
@@ -57,14 +60,33 @@ const Appointment = () => {
       const timeSlots = [];
 
       while (currentDate < endTime) {
-        timeSlots.push({
-          dateTime: new Date(currentDate),
-          time: currentDate.toLocaleTimeString("en-PK", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          }),
+        let formattedTime = currentDate.toLocaleTimeString("en-PK", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
         });
+
+        let day = currentDate.getDay();
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
+
+        const slotDate = day + "_" + month + "_" + year;
+        const slotTime = formattedTime;
+
+        const isSlotAvailable =
+          doctorInfo.slotsBooked[slotDate] &&
+          doctorInfo.slotsBooked[slotDate].includes(slotTime)
+            ? false
+            : true;
+
+        if (isSlotAvailable) {
+          // slots date and time
+          timeSlots.push({
+            dateTime: new Date(currentDate),
+            time: formattedTime,
+          });
+        }
+
         currentDate.setMinutes(currentDate.getMinutes() + 30); // Increment by 30 minutes
       }
 
@@ -79,6 +101,48 @@ const Appointment = () => {
   useEffect(() => {
     console.log(docSlots);
   }, [docSlots]);
+
+  // for navigation
+  const navigate = useNavigate();
+
+  // api function with post method to book appointment
+  const bookAppointment = async () => {
+    // user login check
+    if (!token) {
+      toast.warn("Login first to book an appointment");
+      return navigate("/login");
+    }
+
+    try {
+      const date = docSlots[slotIndex][0].dateTime;
+
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+
+      const slotDate = day + "_" + month + "_" + year;
+
+      console.log(slotDate);
+
+      const { data } = await axios.post(
+        backendUrl + "/api/user/book-appointment",
+        { docId, slotDate, slotTime },
+        { headers: { token } }
+      );
+
+      if (data.success) {
+        toast.success(data.message);
+        // now update slots for other patients
+        getDoctorsData();
+        navigate("/my-appointments");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div>
@@ -165,7 +229,10 @@ const Appointment = () => {
               </p>
             ))}
         </div>
-        <button className="bg-blue-200 text-gray-500 text-base px-14 py-3 rounded-full my-6">
+        <button
+          className="bg-blue-200 text-gray-500 text-base px-14 py-3 rounded-full my-6"
+          onClick={bookAppointment}
+        >
           Schedule Now
         </button>
       </div>
