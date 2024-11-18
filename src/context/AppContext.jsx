@@ -76,6 +76,7 @@ const AppContextProvider = (props) => {
     userData,
     setUserData,
     userProfileData,
+    getDoctorsData,
   };
 
   return (
