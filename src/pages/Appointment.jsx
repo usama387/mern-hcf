@@ -219,11 +219,16 @@ const Appointment = () => {
               <p
                 key={index}
                 className={`text-sm flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${
-                  item.time === slotTime
+                  item.isBooked
+                    ? "bg-red-200 text-gray-600 cursor-not-allowed"
+                    : item.time === slotTime
                     ? "bg-blue-100 text-gray-500"
                     : "border border-gray-300 text-gray-400"
                 }`}
-                onClick={() => setSlotTime(item.time)}
+                onClick={() => !item.isBooked && setSlotTime(item.time)}
+                title={
+                  item.isBooked ? "This slot is already booked" : "Available"
+                }
               >
                 {item.time.toLowerCase()}
               </p>
